@@ -3,7 +3,7 @@ tmux-ssh-host
 
 This is a plugin for [TPM](https://github.com/tmux-plugins/tpm).
 
-This plugin displays the longest argument of ssh command.
+This plugin displays the hostname connect by ssh command.
 
 ## Usage
 
