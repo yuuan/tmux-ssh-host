@@ -12,14 +12,6 @@ do_interpolation() {
 	echo "$interpolated"
 }
 
-update_tmux_option() {
-	local option="$1"
-	local option_value="$(tmux show-option -gqv "$option")"
-	local new_option_value="$(do_interpolation "$option_value")"
-
-	tmux set-option -gq "$option" "$new_option_value"
-}
-
 update_tmux_window_option() {
 	local option="$1"
 	local option_value="$(tmux show-window-option -gv "$option")"
@@ -28,7 +20,5 @@ update_tmux_window_option() {
 	tmux set-window-option -g "$option" "$new_option_value"
 }
 
-update_tmux_option "status-right"
-update_tmux_option "status-left"
 update_tmux_window_option "window-status-format"
 update_tmux_window_option "window-status-current-format"
