@@ -1,14 +1,15 @@
 #!/usr/bin/env bash
 
-get_ssh_commands() {
+get_ssh_arguments() {
 	local parent_pid=$1
-	local ssh_commands=$({ \pgrep -flaP $parent_pid ; \ps -o command -p $parent_pid; } \
+	local arguments=$({ \pgrep -flaP $parent_pid ; \ps -o command -p $parent_pid; } \
 		| \xargs -I{} echo {} \
 		| \awk '/ssh/' \
+		| \head -n 1 \
 		| \sed -E 's/^[0-9]*[[:blank:]]*ssh //' \
 	)
 
-	echo $ssh_commands
+	echo $arguments
 }
 
 get_ssh_host() {
@@ -23,8 +24,8 @@ get_ssh_host() {
 	echo $longest_argument
 }
 
-ssh_command=$(get_ssh_commands "$1" | \head -n 1)
+arguments=$(get_ssh_arguments "$1")
 
-if [[ -n "$ssh_command" ]]; then
-	echo $(get_ssh_host $ssh_command)
+if [[ -n "$arguments" ]]; then
+	echo $(get_ssh_host $arguments)
 fi
