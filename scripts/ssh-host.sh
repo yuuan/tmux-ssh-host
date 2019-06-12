@@ -14,14 +14,20 @@ get_ssh_arguments() {
 
 get_ssh_host() {
 	local ssh_command="$1"
-	local longest_argument=$(echo $ssh_command \
-		| awk -v RS=' ' '{print length($0), $0}' \
-		| sort -nr \
-		| head -n 1 \
-		| cut -d' ' -f2- \
-	)
 
-	echo $longest_argument
+	while (($# > 0)); do
+		case "$1" in
+			-[BbcDEeFIiJLlmOopQRSWw])
+				shift
+				;;
+			-*)
+				;;
+			*)
+				echo "$1" && break
+				;;
+		esac
+		shift
+	done
 }
 
 arguments=$(get_ssh_arguments "$1")
